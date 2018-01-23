@@ -16,7 +16,6 @@ defmodule Unique do
     end
   end
 
-
   def contains(_, []) do false end
   def contains(x, l) do
     [head | tail] = l
