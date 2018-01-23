@@ -9,5 +9,5 @@ defmodule Remove do
       [head | remove(x, tail)]
     end
   end
-
+  
 end
