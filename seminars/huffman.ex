@@ -19,8 +19,10 @@ end
 
   def my_test(msg) do
     tree = tree(freq(msg))
+    table = encode_table(tree)
     IO.inspect tree
-    encode_table(tree)
+    IO.inspect table
+    encode(msg, table)
   end
 
   def extractFreq ({c, f}) do f end
@@ -70,9 +72,17 @@ end
   def decode_table(tree) do
     # To implement...
   end
-  def encode(text, table) do
-    # To implement...
+  def encode([char | rest], table) do
+    encode_char(char, table) ++ encode(rest, table)
   end
+
+  def encode_char(char, [{char, path} | rest]) do
+    path
+  end
+  def encode_char(char, [{char2, path} | rest]) do
+    encode_char(char, rest)
+  end
+
   def decode(seq, tree) do
     # To implement...
   end
