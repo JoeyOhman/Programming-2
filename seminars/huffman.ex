@@ -17,18 +17,33 @@ end
     decode(seq, decode)
   end
 
-  def my_test(chars) do
-    msg = read("kallocain.txt", chars)
+  def getTimeMillis() do
+    :os.system_time(:milli_seconds)
+  end
+
+  def my_test(noChars) do
+    msg = read("kallocain.txt", noChars)
+    startTime = getTimeMillis()
     freq = freq(msg)
+    freqTime = getTimeMillis() - startTime
+    startTime = getTimeMillis()
     tree = tree(freq)
+    treeTime = getTimeMillis() - startTime
+    startTime = getTimeMillis()
     table = encode_table(tree)
+    tableTime = getTimeMillis() - startTime
+    startTime = getTimeMillis()
     code = encode(msg, table)
-    IO.inspect freq
-    IO.inspect tree
-    IO.inspect table
-    IO.puts msg
-    IO.inspect code
+    encodeTime = getTimeMillis() - startTime
+    startTime = getTimeMillis()
     decode(code, table)
+    decodeTime = getTimeMillis() - startTime
+    IO.inspect "Freq time: " <> to_string(freqTime)
+    IO.inspect "Tree time: " <> to_string(treeTime)
+    IO.inspect "Table time: " <> to_string(tableTime)
+    IO.inspect "Encode time: " <> to_string(encodeTime)
+    IO.inspect "Decode time: " <> to_string(decodeTime)
+    "Sum time: " <> to_string(freqTime + treeTime + tableTime + encodeTime + decodeTime)
 
 
   end
@@ -59,7 +74,7 @@ end
 
   # Complexity: O(uniqueChars)
   def insert({c, f}, []) do [{c, f}] end
-  def insert({c, f}, [{ch, fh} | t]) when f < fh do
+  def insert({c, f}, [{ch, fh} | t]) when f <= fh do
       [{c, f}, {ch, fh} | t]
   end
   def insert({c, f}, [h | t]) do
